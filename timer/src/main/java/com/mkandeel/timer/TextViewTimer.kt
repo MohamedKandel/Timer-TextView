@@ -21,6 +21,7 @@ class TextViewTimer(context: Context, attrs: AttributeSet?) :
     private var hours = ""
     private var mins = ""
     private var sec = ""
+    private var timerStarted = false
 
     init {
         context.theme.obtainStyledAttributes(
@@ -46,23 +47,29 @@ class TextViewTimer(context: Context, attrs: AttributeSet?) :
     }
 
     fun startTimer() {
-        task = object : TimerTask() {
-            override fun run() {
-                handler.post {
-                    time++
-                    this@TextViewTimer.text = getTimerText()
+        if (!timerStarted) {
+            task = object : TimerTask() {
+                override fun run() {
+                    handler.post {
+                        time++
+                        this@TextViewTimer.text = getTimerText()
+                    }
                 }
             }
+            statusListener.onTimerStarted()
+            timerStarted = true
+            timer.scheduleAtFixedRate(task, 0, updateInterval)
         }
-        statusListener.onTimerStarted()
-        timer.scheduleAtFixedRate(task, 0, updateInterval)
     }
 
     fun stopTimer() {
-        if (::task.isInitialized) {
-            handler.post {
-                task.cancel()
-                statusListener.onTimerStopped()
+        if (timerStarted) {
+            if (::task.isInitialized) {
+                handler.post {
+                    task.cancel()
+                    timerStarted = false
+                    statusListener.onTimerStopped()
+                }
             }
         }
     }
