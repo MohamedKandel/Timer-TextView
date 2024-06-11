@@ -56,7 +56,9 @@ class TextViewTimer(context: Context, attrs: AttributeSet?) :
                     }
                 }
             }
-            statusListener.onTimerStarted()
+            if (::statusListener.isInitialized) {
+                statusListener.onTimerStarted()
+            }
             timerStarted = true
             timer.scheduleAtFixedRate(task, 0, updateInterval)
         }
@@ -68,7 +70,9 @@ class TextViewTimer(context: Context, attrs: AttributeSet?) :
                 handler.post {
                     task.cancel()
                     timerStarted = false
-                    statusListener.onTimerStopped()
+                    if (::statusListener.isInitialized) {
+                        statusListener.onTimerStopped(this.hours, this.mins, this.sec)
+                    }
                 }
             }
         }
@@ -77,7 +81,9 @@ class TextViewTimer(context: Context, attrs: AttributeSet?) :
     fun resetTimer() {
         stopTimer()
         time = 0.0
-        statusListener.onTimerReset()
+        if (::statusListener.isInitialized) {
+            statusListener.onTimerReset()
+        }
         this.text = getTimerText()
     }
 
@@ -96,7 +102,9 @@ class TextViewTimer(context: Context, attrs: AttributeSet?) :
         this.sec = String.format("%02d", seconds)
 
         if (hours > 0 || minutes > 0 || seconds > 0) {
-            tickListener.onTickListener(this.hours, this.mins, this.sec)
+            if (::tickListener.isInitialized) {
+                tickListener.onTickListener(this.hours, this.mins, this.sec)
+            }
         }
 
         return this.hours + ":" + this.mins +
