@@ -1,7 +1,7 @@
 ![Static Badge](https://img.shields.io/badge/Android-green) 
 ![Static Badge](https://img.shields.io/badge/Kotlin-mauve)
 ![Static Badge](https://img.shields.io/badge/latest%20release:-1.1.1-red)
-![Static Badge](https://img.shields.io/badge/jitpackio-black)
+[![](https://jitpack.io/v/MohamedKandel/Timer-TextView.svg)](https://jitpack.io/#MohamedKandel/Timer-TextView)
 [![HitCount](https://hits.dwyl.com/MohamedKandel/Timer-TextView.svg?style=flat-square)](http://hits.dwyl.com/MohamedKandel/Timer-TextView)
 
 ## Timer TextView: Effortlessly Build Your Own Timer in Your Android App
